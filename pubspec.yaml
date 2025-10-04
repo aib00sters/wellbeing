@@ -47,7 +47,7 @@ dependencies:
   speech_to_text: ^7.1.0
   # speech_to_text_ultra: ^0.0.3
   avatar_glow: ^3.0.1
-  url_launcher: ^6.1.14
+  url_launcher: ^6.3.2
   video_player: ^2.8.2
   font_awesome_flutter: ^10.7.0
   date_picker_timeline: ^1.2.5
@@ -59,12 +59,12 @@ dependencies:
   # package_info_plus: ^5.0.1
   percent_indicator: ^4.2.3
   simple_ripple_animation: ^0.1.0
-  sms_autofill: ^2.3.1
+  sms_autofill: ^2.4.1
   record_mp3_plus: ^1.2.0
   flutter_webrtc: ^1.1.0
   animated_text_kit: ^4.2.2
   googleapis_auth: ^2.0.0
-  googleapis: ^14.0.0
+  googleapis: ^15.0.0
 
 
   flutter:
@@ -73,14 +73,14 @@ dependencies:
   flutter_bloc: ^8.1.2
   flutter_drawing_board: ^0.9.5
   flutter_image_compress: ^2.0.3
-  flutter_inappwebview: ^6.0.0
+  flutter_inappwebview: ^6.1.5
   flutter_local_notifications: ^19.4.1
   flutter_staggered_animations: ^1.1.1
   freezed: ^3.0.0-0.0.dev
   freezed_annotation: ^3.1.0
   google_fonts: ^6.2.1
   http: ^1.2.0
-  image_picker: ^1.0.6
+  image_picker: ^1.2.0
   intl: ^0.19.0
   isar: ^3.1.0+1
   isar_flutter_libs: ^3.1.0+1

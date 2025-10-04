@@ -18,21 +18,21 @@ def flutterVersionName = localProperties.getProperty('flutter.versionName') ?: '
 
 android {
     namespace 'com.wellbeing.wellbeingappUs'
-    compileSdk 35
+    compileSdk 36
     ndkVersion "27.0.12077973"
-    buildToolsVersion "35.0.0"  // Added for SDK 35
+    buildToolsVersion "35.0.0"
 
     compileOptions {
         coreLibraryDesugaringEnabled true
-        sourceCompatibility JavaVersion.VERSION_11  // Updated from VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_11  // Updated from VERSION_1_8
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
     }
 
     kotlinOptions {
-        jvmTarget = '11'  // Updated from '1.8'
+        jvmTarget = '17'
         freeCompilerArgs += [
             "-Xjvm-default=all",
-            "-Xuse-k2"  // Use K2 compiler for better compatibility
+            "-Xuse-k2"
         ]
     }
 
@@ -58,7 +58,6 @@ android {
         }
     }
 
-    // Add this block for better compatibility
     packagingOptions {
         pickFirst '**/libc++_shared.so'
         pickFirst '**/libjsc.so'
@@ -71,15 +70,19 @@ flutter {
 
 dependencies {
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
-    implementation platform('com.google.firebase:firebase-bom:33.6.0')  // Updated to latest
+    implementation platform('com.google.firebase:firebase-bom:33.6.0')
     implementation 'com.google.firebase:firebase-analytics'
-    implementation 'androidx.appcompat:appcompat:1.7.0'  // Updated
-    implementation 'com.google.android.material:material:1.12.0'  // Updated
+    implementation 'androidx.appcompat:appcompat:1.7.0'
+    implementation 'com.google.android.material:material:1.12.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
-    // Remove explicit firebase-messaging version to use BOM version
     implementation 'com.google.firebase:firebase-messaging'
     implementation 'androidx.multidex:multidex:2.0.1'
     coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:2.1.4'
-    
-    //implementation 'com.arthenica:ffmpeg-kit-full:5.1'
+}
+
+// Force all Kotlin compilation tasks to use JVM 17
+tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).configureEach {
+    kotlinOptions {
+        jvmTarget = "17"
+    }
 }
