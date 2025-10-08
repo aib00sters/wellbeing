@@ -91,7 +91,7 @@ class _ChatNewPageState extends State<ChatNewPage> {
     });
   }
 
-  pickImage() async {
+  Future<Null> pickImage() async {
     final picker = ImagePicker();
     final pickedFile = await picker.pickImage(source: ImageSource.gallery);
     if (pickedFile != null) {
@@ -337,8 +337,9 @@ class _ChatNewPageState extends State<ChatNewPage> {
                                 //             height: SizeConfig.sizeMultiplier * 40,
                                 //             fit: BoxFit.cover,
                                 //           )
+
                                 : Image.network(
-                                    "${widget.imgUrl}", // Network image for others
+                                    "https://myndboosters.com${widget.imgUrl}", // Network image for others
                                     width: SizeConfig.sizeMultiplier * 40,
                                     height: SizeConfig.sizeMultiplier * 40,
                                     fit: BoxFit.cover,
@@ -351,7 +352,7 @@ class _ChatNewPageState extends State<ChatNewPage> {
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               Text(
-                                widget.name??"",
+                                widget.name ?? "",
                                 style: AppTextStyle.boldTitleStyle(
                                     fontSize: SizeConfig.textMultiplier * 6),
                               ),
@@ -645,7 +646,7 @@ class _ChatNewPageState extends State<ChatNewPage> {
     );
   }
 
-  cleardata() {
+  void cleardata() {
     final clearbloc = BlocProvider.of<AddparticipantBloc>(context);
     clearbloc.add(const AddparticipantEvent.clearparticipant());
   }

@@ -1,5 +1,6 @@
-import 'package:bloc/bloc.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/foundation.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:wellbeings/modules/friends_circle_module/models/friend_request_item_mode/friend_request_item.dart';
@@ -44,6 +45,15 @@ class FRUserListBloc extends Bloc<UserListEvent, UserListState> {
             rcvdRequestStream,
             userListSteam,
             (a, b, c) {
+              // DEBUG: Print raw document count
+              if (kDebugMode) {
+                print('=== DEBUG: Raw Firestore Data ===');
+                print('Total documents from Firestore: ${c.docs.length}');
+                print('All user IDs: ${c.docs.map((e) => e.id).toList()}');
+                print(
+                    'All user names: ${c.docs.map((e) => e.get('name')).toList()}');
+              }
+
               return c.docs.map(
                 (e) {
                   var status;
@@ -86,6 +96,35 @@ class FRUserListBloc extends Bloc<UserListEvent, UserListState> {
             onData: (data) {
               List<FriendRequestList> friendRquestList =
                   data.map((e) => FriendRequestList.fromJson(e)).toList();
+
+              // DEBUG: Print processed list
+              if (kDebugMode) {
+                print('=== DEBUG: Processed Data ===');
+                print(
+                    'Total users after processing: ${friendRquestList.length}');
+                print(
+                    'User names: ${friendRquestList.map((e) => e.name).toList()}');
+                print(
+                    'User IDs: ${friendRquestList.map((e) => e.userId).toList()}');
+
+                // Check for duplicate names
+                var nameGroups = <String, List<FriendRequestList>>{};
+                for (var user in friendRquestList) {
+                  nameGroups[user.name] = [
+                    ...(nameGroups[user.name] ?? []),
+                    user
+                  ];
+                }
+                nameGroups.forEach((name, users) {
+                  if (users.length > 1) {
+                    print('Found ${users.length} users with name "$name":');
+                    for (var user in users) {
+                      print('  - ID: ${user.userId}, Status: ${user.status}');
+                    }
+                  }
+                });
+              }
+
               return _Success(
                   userList: friendRquestList,
                   filteredUserList: friendRquestList

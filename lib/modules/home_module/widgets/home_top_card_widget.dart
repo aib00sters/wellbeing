@@ -126,15 +126,17 @@ class HomeTopCardWidget extends StatelessWidget {
                       itemCount: model.sessions!.length,
                       scrollDirection: Axis.horizontal,
                       itemBuilder: (context, index) {
-                        Random random = Random();
-                        int randomIndex = random.nextInt(imagelist.length);
-                        String randomImage = imagelist[randomIndex].botimage;
-                        print(randomImage);
+                        // Random random = Random();
+                        // int randomIndex = random.nextInt(imagelist.length);
+                        // String randomImage = imagelist[randomIndex].botimage;
+                        // print(randomImage);
                         return Padding(
                           padding: const EdgeInsets.symmetric(
                               horizontal: 2, vertical: 4),
                           child: InkWell(
                             onTap: () async {
+                              // print(
+                              //     "https://myndboosters.com${model.sessions![index].uaMap!.assistant!.avatar!.avatarImg ?? ''}");
                               final getsessions =
                                   BlocProvider.of<SessiondataBloc>(context);
                               getsessions.add(SessiondataEvent.getsessions(
@@ -143,7 +145,8 @@ class HomeTopCardWidget extends StatelessWidget {
                                   assistantname: model
                                       .sessions![index].uaMap!.assistant!.name!,
                                   // model.assistants[index].name,
-                                  image: randomImage,
+                                  image: model.sessions![index].uaMap!
+                                      .assistant!.avatar!.avatarImg,
                                   heroindex:
                                       "card_//${model.sessions![index].uaMap!.assistant!.name}",
                                   avatar_video: model.sessions![index].uaMap!
@@ -201,7 +204,10 @@ class HomeTopCardWidget extends StatelessWidget {
                                         // AssetImage(
                                         //   randomImage,
                                         // ),
-                                        NetworkImage(randomImage),
+
+                                        NetworkImage(
+                                      'https://myndboosters.com${model.sessions![index].uaMap!.assistant!.avatar!.avatarImg ?? ''}',
+                                    ),
                                     fit: BoxFit.cover,
                                   ),
                                 ),

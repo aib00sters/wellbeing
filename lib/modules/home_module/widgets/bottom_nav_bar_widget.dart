@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:wellbeings/utilities/app_navigator.dart';
+import 'package:wellbeings/widgets/showCominsoondialog.dart';
 
 import '../../../constants/app_assets.dart';
 import '../../../constants/app_colors.dart';
@@ -58,7 +59,8 @@ class _BottomNavBarState extends State<BottomNavBar> {
               // ),
               InkWell(
                 onTap: () {
-                  AppNavigator.pushNamed('/chatList');
+                  // AppNavigator.pushNamed('/chatList');
+                  showComingSoonDialog(context);
                 },
                 child: BlocBuilder<ChatListBloc, ChatListState>(
                   builder: (context, state) {

@@ -204,7 +204,8 @@ class _AddFriendPageState extends State<AddFriendPage> {
                         },
                         initial: () => const Center(child: SizedBox()),
                         loading: () => const Center(
-                              child: CircularProgressIndicator(),
+                              child: CircularProgressIndicator(
+                                  color: Color.fromARGB(255, 255, 99, 133)),
                             ),
                         success: (List<FriendRequestList> userList,
                             List<FriendRequestList> filteredUserList) {
@@ -368,7 +369,7 @@ class _AddFriendPageState extends State<AddFriendPage> {
     );
   }
 
-  getButton({
+  Flexible getButton({
     required String? userid,
     required String? status,
     required String? userName,

@@ -23,14 +23,15 @@ Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
 }
 
 class FireBaseServices {
-  androidNotificationChannel() => const AndroidNotificationChannel(
+  AndroidNotificationChannel androidNotificationChannel() =>
+      const AndroidNotificationChannel(
         'high_importance_channel', // id
         'High Importance Notifications', // title
         playSound: true,
         importance: Importance.max,
       );
 
-  enableIOSNotifications() async {
+  Future<void> enableIOSNotifications() async {
     await FirebaseMessaging.instance
         .setForegroundNotificationPresentationOptions(
       alert: true, // Required to display a heads up notification
@@ -39,7 +40,7 @@ class FireBaseServices {
     );
   }
 
-  registerNotificationListeners() async {
+  Future<void> registerNotificationListeners() async {
     AndroidNotificationChannel channel = androidNotificationChannel();
     final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
         FlutterLocalNotificationsPlugin();
@@ -97,42 +98,62 @@ class FireBaseServices {
     required String body,
     required String type,
   }) async {
-    // Load the service account JSON key
-    // final serviceAccount = File(
-    //         'assets/service_account/wellbeing-b147a-firebase-adminsdk-7z0wu-d03701c72e.json')
-    //     .readAsStringSync();
-    final String serviceAccount = await rootBundle.loadString(
-        'assets/service_account/wellbeing-b147a-firebase-adminsdk-7z0wu-d03701c72e.json');
-    final credentials = auth.ServiceAccountCredentials.fromJson(serviceAccount);
-    // Obtain an OAuth2 Access Token
-    final client = await clientViaServiceAccount(
-      credentials,
-      ['https://www.googleapis.com/auth/firebase.messaging'],
-    );
-    final Map<String, dynamic> messageData = {
-      "message": {
-        "token": fcmToken,
-        "notification": {"title": title, "body": body},
-        "data": {
-          "type": type,
+    http.Client? client;
+    try {
+      // Load the service account JSON key
+      final String serviceAccount = await rootBundle.loadString(
+          'assets/service_account/wellbeing-b147a-firebase-adminsdk-7z0wu-d03701c72e.json');
+
+      print('Service account loaded'); // Debug print
+
+      final credentials = auth.ServiceAccountCredentials.fromJson(
+          json.decode(serviceAccount) // Parse JSON string to Map
+          );
+
+      print('Credentials created'); // Debug print
+
+      // Obtain an OAuth2 Access Token
+      client = await clientViaServiceAccount(
+        credentials,
+        ['https://www.googleapis.com/auth/firebase.messaging'],
+      );
+
+      print('Client authenticated'); // Debug print
+
+      final Map<String, dynamic> messageData = {
+        "message": {
+          "token": fcmToken,
+          "notification": {"title": title, "body": body},
+          "data": {
+            "type": type,
+          }
         }
+      };
+
+      print('Sending notification...'); // Debug print
+
+      final response = await client.post(
+        Uri.parse(
+            'https://fcm.googleapis.com/v1/projects/wellbeing-b147a/messages:send'),
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: jsonEncode(messageData),
+      );
+
+      if (response.statusCode == 200) {
+        print('Notification sent successfully');
+      } else {
+        print('Failed to send notification. Status: ${response.statusCode}');
+        print('Error: ${response.body}');
       }
-    };
-    final response = await client.post(
-      Uri.parse(
-          'https://fcm.googleapis.com/v1/projects/wellbeing-b147a/messages:send'),
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: jsonEncode(messageData),
-    );
-    if (response.statusCode == 200) {
-      print('Notification sent successfully');
-    } else {
-      print('Failed to send notification. Error: ${response.body}');
+    } catch (e, stackTrace) {
+      print('Error sending notification: $e');
+      print('Stack trace: $stackTrace');
+    } finally {
+      client?.close(); // Clean up the client
     }
   }
-
   // Future<void> sendNotification({
   //   required String fcmToken,
   //   required String title,

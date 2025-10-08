@@ -8,6 +8,7 @@ import 'package:flutter_tts/flutter_tts.dart';
 import 'package:speech_to_text/speech_to_text.dart' as stt;
 
 import 'package:wellbeings/modules/chat_call_module/blocs/speechtotextbloc/bloc/speechtotext_bloc.dart';
+import 'package:wellbeings/modules/home_module/views/home_page.dart';
 import 'package:wellbeings/modules/new_home_page/pages/new_main_home_page.dart';
 import 'package:wellbeings/utilities/app_navigator.dart';
 import 'package:wellbeings/utilities/app_styles.dart';
@@ -165,7 +166,7 @@ class _Speak_To_TextState extends State<Speak_To_Text>
         child: Scaffold(
           appBar: AppBar(
             title: Text(
-              widget.name??"",
+              widget.name ?? "",
               style: AppTextStyle.boldTitleStyle(),
             ),
             centerTitle: true,
@@ -265,7 +266,7 @@ class _Speak_To_TextState extends State<Speak_To_Text>
                           ? const AssetImage(
                               "assets/images/Gavin.jpg") // Asset image for Gavin
                           : NetworkImage(
-                              "https://myndboosters.com///${widget.imageurl}", // Network image for others
+                              "https://myndboosters.com${widget.imageurl}", // Network image for others
                             ) as ImageProvider,
                 ),
               ),
@@ -488,8 +489,7 @@ class _Speak_To_TextState extends State<Speak_To_Text>
 
                     Navigator.pushAndRemoveUntil(
                       context,
-                      MaterialPageRoute(
-                          builder: (context) => NewMainHomePage()),
+                      MaterialPageRoute(builder: (context) => HomePage()),
                       (route) => false, // This removes all previous routes
                     );
 
