@@ -98,8 +98,8 @@ dependencies:
   timeago: ^3.4.0
   # uni_links: ^0.5.1
   
-  zego_uikit_prebuilt_call: ^4.19.0
-  zego_uikit_signaling_plugin: ^2.8.17
+  zego_uikit_prebuilt_call: ^4.21.0
+  zego_uikit_signaling_plugin: ^2.8.19
   camera: ^0.11.0+2
   firebase_auth: ^6.1.1
   sign_in_button: ^4.0.1
@@ -145,6 +145,9 @@ flutter:
     - assets/
     - assets/images/
     - assets/service_account/wellbeing-b147a-firebase-adminsdk-7z0wu-1eefbf4bbe.json
+
+dependency_overrides:
+  archive: 3.3.7
   #   - images/a_dot_ham.jpeg
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
