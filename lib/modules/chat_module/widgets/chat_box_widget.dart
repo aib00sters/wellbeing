@@ -255,32 +255,32 @@ class _ChatBoxWidgetState extends State<ChatBoxWidget> {
                                             "",
                                       );
                                       Future.delayed(Duration.zero, () {
-                                        // Navigator.push(
-                                        //   context,
-                                        //   MaterialPageRoute(
-                                        //     builder: (context) => CallPage(
-                                        //       callID: state.whenOrNull(
-                                        //             success: (chatId,
-                                        //                     recieverData,
-                                        //                     chatType,
-                                        //                     userId,
-                                        //                     userName) =>
-                                        //                 userId,
-                                        //           ) ??
-                                        //           "",
-                                        //       callername: state.whenOrNull(
-                                        //             success: (chatId,
-                                        //                     recieverData,
-                                        //                     chatType,
-                                        //                     userId,
-                                        //                     userName) =>
-                                        //                 recieverData.name,
-                                        //           ) ??
-                                        //           "",
-                                        //       type: 'audio',
-                                        //     ),
-                                        //   ),
-                                        // );
+                                        Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                            builder: (context) => CallPage(
+                                              callID: state.whenOrNull(
+                                                    success: (chatId,
+                                                            recieverData,
+                                                            chatType,
+                                                            userId,
+                                                            userName) =>
+                                                        userId,
+                                                  ) ??
+                                                  "",
+                                              callername: state.whenOrNull(
+                                                    success: (chatId,
+                                                            recieverData,
+                                                            chatType,
+                                                            userId,
+                                                            userName) =>
+                                                        recieverData.name,
+                                                  ) ??
+                                                  "",
+                                              type: 'audio',
+                                            ),
+                                          ),
+                                        );
                                       });
                                     },
                                     child: const Icon(Icons.call),
@@ -335,32 +335,32 @@ class _ChatBoxWidgetState extends State<ChatBoxWidget> {
                                                 "",
                                           );
                                           Future.delayed(Duration.zero, () {
-                                            // Navigator.push(
-                                            //   context,
-                                            //   MaterialPageRoute(
-                                            //     builder: (context) => CallPage(
-                                            //       callID: state.whenOrNull(
-                                            //             success: (chatId,
-                                            //                     recieverData,
-                                            //                     chatType,
-                                            //                     userId,
-                                            //                     userName) =>
-                                            //                 userId,
-                                            //           ) ??
-                                            //           "",
-                                            //       callername: state.whenOrNull(
-                                            //             success: (chatId,
-                                            //                     recieverData,
-                                            //                     chatType,
-                                            //                     userId,
-                                            //                     userName) =>
-                                            //                 recieverData.name,
-                                            //           ) ??
-                                            //           "",
-                                            //       type: 'video',
-                                            //     ),
-                                            //   ),
-                                            // );
+                                            Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                builder: (context) => CallPage(
+                                                  callID: state.whenOrNull(
+                                                        success: (chatId,
+                                                                recieverData,
+                                                                chatType,
+                                                                userId,
+                                                                userName) =>
+                                                            userId,
+                                                      ) ??
+                                                      "",
+                                                  callername: state.whenOrNull(
+                                                        success: (chatId,
+                                                                recieverData,
+                                                                chatType,
+                                                                userId,
+                                                                userName) =>
+                                                            recieverData.name,
+                                                      ) ??
+                                                      "",
+                                                  type: 'video',
+                                                ),
+                                              ),
+                                            );
                                           });
                                         },
                                         child: const Icon(Icons.video_call))),
@@ -429,7 +429,7 @@ class _ChatBoxWidgetState extends State<ChatBoxWidget> {
                                               receiverId: recieverData.userId,
                                               message:
                                                   widget.msgController.text,
-                                              chatId: chatId));
+                                              chatId: recieverData.fcmToken));
 
                                       widget.msgController.clear();
                                     }

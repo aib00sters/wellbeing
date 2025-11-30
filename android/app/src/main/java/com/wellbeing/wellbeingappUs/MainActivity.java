@@ -7,6 +7,7 @@ import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.FileUtils;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
@@ -34,10 +35,10 @@ public class MainActivity extends FlutterActivity {
     public static MethodChannel methodChannel;
     final String channel = "wellbeings/channel";
     private InputStream inputStream;
+    private static final String TAG = "MainActivity";
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
-
     public void configureFlutterEngine(@NonNull FlutterEngine flutterEngine) {
         super.configureFlutterEngine(flutterEngine);
         GeneratedPluginRegistrant.registerWith(flutterEngine);
@@ -71,12 +72,12 @@ public class MainActivity extends FlutterActivity {
                     result.success(arrayList);
                 } catch (Exception e) {
                     e.printStackTrace();
+                    result.error("ERROR", "Failed to get app info", e.getMessage());
                 }
             } else if (call.method.equals("resolveContent")) {
                 ArrayList<String> path = (ArrayList<String>) call.arguments;
                 Context context = this.getApplicationContext();
                 try {
-
                     inputStream = context.getContentResolver().openInputStream(Uri.parse(path.get(0)));
                     String fileName = path.get(0).split("/")[path.get(0).split("/").length - 1];
                     String fielPath = context.getFilesDir().getPath();
@@ -86,18 +87,65 @@ public class MainActivity extends FlutterActivity {
                         FileUtils.copy(inputStream, outputStream);
                         result.success(tempFile.getPath());
                     }
-
                 } catch (FileNotFoundException e) {
                     e.printStackTrace();
+                    result.error("FILE_NOT_FOUND", "File not found", e.getMessage());
                 } catch (IOException e) {
                     e.printStackTrace();
+                    result.error("IO_ERROR", "IO error occurred", e.getMessage());
                 }
-
             } else if (call.method.equals("generateAvatar")) {
                 Intent intent1 = new Intent(this, GenerateAvatarActivity.class);
                 startActivity(intent1);
+            } else if (call.method.equals("convertMp4ToMp3")) {
+                // NEW METHOD: Using MediaExtractor/MediaMuxer instead of FFmpeg
+                new Thread(() -> {
+                    try {
+                        String mp4Path = call.argument("mp4Path");
+                        String outputPath = call.argument("outputPath");
+
+                        if (mp4Path == null || outputPath == null) {
+                            runOnUiThread(() -> result.error("INVALID_ARGS", 
+                                "MP4 path or output path is null", null));
+                            return;
+                        }
+
+                        Log.d(TAG, "Converting: " + mp4Path + " to " + outputPath);
+
+                        // Use AudioExtractor to extract audio
+                        AudioExtractor audioExtractor = new AudioExtractor();
+                        audioExtractor.genVideoUsingMuxer(
+                            mp4Path,      // source video path
+                            outputPath,   // destination audio path
+                            -1,           // start from beginning
+                            -1,           // no end trimming
+                            true,         // extract audio
+                            false         // don't extract video
+                        );
+
+                        Log.d(TAG, "Conversion successful: " + outputPath);
+                        runOnUiThread(() -> result.success(outputPath));
+
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                        Log.e(TAG, "Conversion failed: " + e.getMessage());
+                        runOnUiThread(() -> result.error(
+                            "CONVERSION_FAILED", 
+                            "Audio extraction failed: " + e.getMessage(), 
+                            null
+                        ));
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                        runOnUiThread(() -> result.error(
+                            "CONVERSION_ERROR", 
+                            "Error during conversion", 
+                            e.getMessage()
+                        ));
+                    }
+                }).start();
+            } else {
+                result.notImplemented();
             }
-            // FFmpeg conversion method call removed
         });
     }
 }

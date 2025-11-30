@@ -18,22 +18,17 @@ def flutterVersionName = localProperties.getProperty('flutter.versionName') ?: '
 
 android {
     namespace 'com.wellbeing.wellbeingappUs'
-    compileSdk 36
+    compileSdk 35
     ndkVersion "27.0.12077973"
-    buildToolsVersion "35.0.0"
 
     compileOptions {
-        coreLibraryDesugaringEnabled true
         sourceCompatibility JavaVersion.VERSION_17
         targetCompatibility JavaVersion.VERSION_17
+        coreLibraryDesugaringEnabled true
     }
 
     kotlinOptions {
         jvmTarget = '17'
-        freeCompilerArgs += [
-            "-Xjvm-default=all",
-            "-Xuse-k2"
-        ]
     }
 
     sourceSets {
@@ -42,7 +37,7 @@ android {
 
     defaultConfig {
         applicationId "com.wellbeing.wellbeingappUs"
-        minSdk 24
+        minSdk 24  // SDK 35 typically requires minSdk 24+
         targetSdk 35
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
@@ -52,15 +47,21 @@ android {
     buildTypes {
         release {
             signingConfig signingConfigs.debug
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-            minifyEnabled true
-            shrinkResources true
+            minifyEnabled false
+            shrinkResources false
+        }
+        debug {
+            minifyEnabled false
+            shrinkResources false
         }
     }
 
     packagingOptions {
         pickFirst '**/libc++_shared.so'
         pickFirst '**/libjsc.so'
+        resources {
+            excludes += '/META-INF/{AL2.0,LGPL2.1}'
+        }
     }
 }
 
@@ -69,20 +70,19 @@ flutter {
 }
 
 dependencies {
-    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
-    implementation platform('com.google.firebase:firebase-bom:33.6.0')
-    implementation 'com.google.firebase:firebase-analytics'
-    implementation 'androidx.appcompat:appcompat:1.7.0'
-    implementation 'com.google.android.material:material:1.12.0'
-    implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
-    implementation 'com.google.firebase:firebase-messaging'
+    coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:2.1.4' 
     implementation 'androidx.multidex:multidex:2.0.1'
-    coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:2.1.4'
-}
+    
+    // Add this line for AlertDialog support
+    implementation 'androidx.appcompat:appcompat:1.7.0'
+    
+    // Use Firebase BOM for version management
+    implementation platform('com.google.firebase:firebase-bom:33.8.0')
+    implementation 'com.google.firebase:firebase-analytics'
+    implementation 'com.google.firebase:firebase-messaging'
+    implementation 'com.google.firebase:firebase-auth'
+    implementation 'com.google.firebase:firebase-firestore'
+    implementation 'com.google.firebase:firebase-storage'
+    // implementation 'com.arthenica:ffmpeg-kit-min:6.0.2'
 
-// Force all Kotlin compilation tasks to use JVM 17
-tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).configureEach {
-    kotlinOptions {
-        jvmTarget = "17"
-    }
 }

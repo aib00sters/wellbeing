@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 
-//import 'package:awesome_notifications/awesome_notifications.dart';
+// import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart';
@@ -102,7 +102,7 @@ class FireBaseServices {
     try {
       // Load the service account JSON key
       final String serviceAccount = await rootBundle.loadString(
-          'assets/service_account/wellbeing-b147a-firebase-adminsdk-7z0wu-d03701c72e.json');
+          'assets/service_account/wellbeing-b147a-firebase-adminsdk-7z0wu-1eefbf4bbe.json');
 
       print('Service account loaded'); // Debug print
 
@@ -154,48 +154,7 @@ class FireBaseServices {
       client?.close(); // Clean up the client
     }
   }
-  // Future<void> sendNotification({
-  //   required String fcmToken,
-  //   required String title,
-  //   required String body,
-  //   required String type,
-  // }) async {
-  //   String serverToken =
-  //       "AAAASrbDa7g:APA91bFzXIdDBeOvqHi_7eFx-IHgTpcpKl-ncnaetg_8LEgcvjl4TWa9lsUpXcRmvbhYFyFddQKJl6BiRCPer9T-g9yPFGMFNFAsTNMx-DNl48fdA4eIP5F3Zq1KAdA7NAK3ADrJi7HA"; // DO NOT expose this in mobile
-
-  //   final Map<String, dynamic> notificationData = {
-  //     'notification': {
-  //       'title': title,
-  //       'body': body,
-  //       'sound': 'default',
-  //       'badge': '1',
-  //     },
-  //     'priority': 'high',
-  //     'data': {
-  //       'subtitle': 'value1',
-  //       'key2': type,
-  //     },
-  //     'to': fcmToken, // Send to a specific device token
-  //   };
-
-  //   final headers = {
-  //     'Content-Type': 'application/json',
-  //     'Authorization': 'key=$serverToken',
-  //   };
-
-  //   final response = await http.post(
-  //     Uri.parse('https://fcm.googleapis.com/fcm/send'),
-  //     headers: headers,
-  //     body: jsonEncode(notificationData),
-  //   );
-
-  //   if (response.statusCode == 200) {
-  //     print('Notification sent successfully');
-  //   } else {
-  //     print('Failed to send notification. Error: ${response.body}');
-  //   }
-  // }
-
+  
   Future<void> setupFirebase({required String version}) async {
     // String googleServicesJson = version == "production"
     //     ? 'google-services-production.json'

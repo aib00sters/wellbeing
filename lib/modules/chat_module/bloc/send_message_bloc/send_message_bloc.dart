@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:intl/intl.dart';
@@ -23,7 +24,9 @@ class SendMessageBloc extends Bloc<SendMessageEvent, SendMessageState> {
         final userName = await IsarServices().getName();
         if (event is _SendMessage) {
           emit(const _Loading());
-
+          if (kDebugMode) {
+            print(event.chatId);
+          }
           Map<String, dynamic> messageData = {
             'chatId': event.chatId,
             'senderId': userId,

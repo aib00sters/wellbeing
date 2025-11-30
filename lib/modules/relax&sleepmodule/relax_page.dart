@@ -143,7 +143,8 @@ class _RelaxPageState extends State<RelaxPage> {
               ),
               SizedBox(
                 width: SizeConfig.screenwidth,
-                height: SizeConfig.heightMultiplier * 73,
+                height: SizeConfig.screenheight * .68,
+
                 // color: Colors.amber,
                 child: Padding(
                     padding: EdgeInsets.symmetric(

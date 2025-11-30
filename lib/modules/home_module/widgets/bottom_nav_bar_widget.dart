@@ -59,8 +59,8 @@ class _BottomNavBarState extends State<BottomNavBar> {
               // ),
               InkWell(
                 onTap: () {
-                  // AppNavigator.pushNamed('/chatList');
-                  showComingSoonDialog(context);
+                  AppNavigator.pushNamed('/chatList');
+                  // showComingSoonDialog(context);
                 },
                 child: BlocBuilder<ChatListBloc, ChatListState>(
                   builder: (context, state) {

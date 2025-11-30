@@ -58,10 +58,8 @@ import 'package:wellbeings/modules/voice_recorder_module/blocs/save_recordings_b
 import 'package:wellbeings/utilities/app_navigator.dart';
 import 'package:wellbeings/utilities/app_routes.dart';
 import 'package:wellbeings/utilities/size_config.dart';
-// import 'package:zego_uikit_prebuilt_call/zego_uikit_prebuilt_call.dart';
-// import 'package:zego_uikit_signaling_plugin/zego_uikit_signaling_plugin.dart';
-// import 'package:zego_uikit_prebuilt_call/zego_uikit_prebuilt_call.dart';
-// import 'package:zego_uikit_signaling_plugin/zego_uikit_signaling_plugin.dart';
+import 'package:zego_uikit_prebuilt_call/zego_uikit_prebuilt_call.dart';
+import 'package:zego_uikit_signaling_plugin/zego_uikit_signaling_plugin.dart';
 
 import 'constants/app_colors.dart';
 import 'modules/chat_bot_modeule/bloc/webrtcconnectionbloc/bloc/bloc/chatcompletion_bloc.dart';
@@ -82,8 +80,8 @@ import 'utilities/firebase_services.dart';
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersiveSticky);
-  // ZegoUIKitPrebuiltCallInvitationService()
-  //     .setNavigatorKey(AppNavigator.navigatorKey);
+  ZegoUIKitPrebuiltCallInvitationService()
+      .setNavigatorKey(AppNavigator.navigatorKey);
 
   await IsarServices().openDB();
   // await FireBaseServices().setupFirebase(version: 'production');
@@ -113,15 +111,14 @@ Future<void> main() async {
   //   ZegoUIKitPrebuiltCallInvitationService().useSystemCallingUI(
   //     [ZegoUIKitSignalingPlugin()],
   //   );
-  // ZegoUIKit().initLog().then((value) async {
-  //   ZegoUIKitPrebuiltCallInvitationService().useSystemCallingUI(
-  //     [ZegoUIKitSignalingPlugin()],
-  //   );
 
-    runApp(MyApp(
-      initialRoute: await IsarServices().isLoggedIn() ? "/home" : "/welcome",
-    ));
-  // });
+  ZegoUIKitPrebuiltCallInvitationService().useSystemCallingUI(
+    [ZegoUIKitSignalingPlugin()],
+  );
+
+  runApp(MyApp(
+    initialRoute: await IsarServices().isLoggedIn() ? "/home" : "/welcome",
+  ));
 }
 
 class MyApp extends StatelessWidget {
