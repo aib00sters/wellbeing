@@ -16,6 +16,23 @@ subprojects {
                 }
             }
         }
+        
+        // FIX: Force all Kotlin tasks to use JVM target 17 (matching app/build.gradle)
+        tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).configureEach {
+            kotlinOptions {
+                jvmTarget = "17"
+            }
+        }
+        
+        // FIX: Ensure all Java compilation uses Java 17
+        if (project.hasProperty('android')) {
+            project.android {
+                compileOptions {
+                    sourceCompatibility JavaVersion.VERSION_17
+                    targetCompatibility JavaVersion.VERSION_17
+                }
+            }
+        }
     }
     project.buildDir = "${rootProject.buildDir}/${project.name}"
 }

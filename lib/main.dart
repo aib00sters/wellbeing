@@ -5,6 +5,7 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_stripe/flutter_stripe.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:wellbeings/blocs/notification_listener_bloc/notification_listener_bloc.dart';
 import 'package:wellbeings/blocs/select_activity_bloc/select_activity_bloc.dart';
@@ -79,6 +80,10 @@ import 'utilities/firebase_services.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  Stripe.publishableKey =
+      "pk_test_51QplZk2f9I19XnYt2NMnanZeA1YoLhGFRXizwP6Gp80LS1czk9kTTHjB6PJqB4NTAB1FaRCyBYKXEfSwLOZ0JNEJ00m6OQnUly";
+
+  await Stripe.instance.applySettings();
   SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersiveSticky);
   ZegoUIKitPrebuiltCallInvitationService()
       .setNavigatorKey(AppNavigator.navigatorKey);

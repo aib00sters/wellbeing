@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:wellbeings/modules/biometric_module/views/biometric_main_page.dart';
+import 'package:wellbeings/modules/payment_page/views/payment_page.dart';
 import 'package:wellbeings/utilities/app_navigator.dart';
 import 'package:wellbeings/utilities/app_styles.dart';
 import 'package:wellbeings/utilities/screen_sizer.dart';
@@ -207,6 +208,34 @@ class _ProfilePageState extends State<ProfilePage> {
                                   Padding(
                                     padding: EdgeInsets.only(left: 10),
                                     child: Text("Edit Profile"),
+                                  )
+                                ],
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                      InkWell(
+                        onTap: () {
+                          Navigator.of(context).push(MaterialPageRoute(
+                            builder: (context) => const PaymentPage(),
+                          ));
+                        },
+                        child: Card(
+                          child: SizedBox(
+                            width: SizeConfig.widthMultiplier * 100,
+                            height: SizeConfig.heightMultiplier * 8,
+                            child: const Padding(
+                              padding: EdgeInsets.only(left: 15),
+                              child: Row(
+                                children: [
+                                  Icon(
+                                    Icons.edit_square,
+                                    color: AppColors.colorPrimary,
+                                  ),
+                                  Padding(
+                                    padding: EdgeInsets.only(left: 10),
+                                    child: Text("Make payment"),
                                   )
                                 ],
                               ),
